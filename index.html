@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Paris — Mar 14–17</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cr:#F7F3EE;--ink:#1A1A1A;--sg:#8B9A7E;--bl:#D4A89A;--st:#B8B0A4;--gd:#C4A44E;--sk:#7BA0C4;--ww:#FFFDF9;--cb:#FFF;--bd:#E8E2DA;--mu:#8A8279}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+.hd{background:var(--ink);color:var(--cr);padding:24px 20px 16px;text-align:center;position:sticky;top:0;z-index:1000}
+.hd h1{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;letter-spacing:.08em}
+.hd p{font-size:.8rem;color:var(--st);margin-top:2px}
+.tabs{display:flex;background:var(--ink);padding:0 8px;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:66px;z-index:1000}
+.tab{flex:1;min-width:78px;padding:10px 6px;text-align:center;font-size:.65rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--st);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.tab:hover{color:var(--cr)}.tab.a{color:var(--cr);border-bottom-color:var(--gd)}
+.tab small{display:block;font-weight:400;font-size:.58rem;margin-top:2px;text-transform:none;letter-spacing:0}
+.dc{display:none}.dc.a{display:block}
+.mw{width:100%;height:320px;position:relative;z-index:1}
+.tl{padding:16px;max-width:700px;margin:0 auto}
+.tb{position:relative;padding-left:28px;padding-bottom:20px;border-left:1.5px solid var(--bd);margin-left:8px}
+.tb:last-child{border-left-color:transparent;padding-bottom:8px}
+.tb::before{content:'';position:absolute;left:-4.5px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--st);border:2px solid var(--cr)}
+.tb.h::before{background:var(--gd)}.tb.m::before{background:var(--bl)}.tb.c::before{background:var(--sg)}
+.tl-l{font-size:.68rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.cd{background:var(--cb);border:1px solid var(--bd);border-radius:8px;padding:11px 13px;margin-bottom:5px}
+.cd:hover{box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.cd.s{border-left:3px solid var(--gd)}
+.cd.o{border-style:dashed;background:var(--ww);opacity:.85}.cd.o:hover{opacity:1}
+.nm{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nm a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--bd)}.nm a:hover{border-color:var(--ink)}
+.b{display:inline-block;font-family:'DM Sans',sans-serif;font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;padding:2px 5px;border-radius:3px}
+.bs{background:var(--gd);color:#fff}.bo{background:var(--st);color:#fff}.bb{background:#C25B56;color:#fff}.bt{background:var(--sg);color:#fff}.bn{background:var(--sk);color:#fff}
+.ds{font-size:.78rem;color:var(--mu);margin-top:2px;line-height:1.5}
+.dr{font-size:.68rem;color:var(--st);margin-top:3px}
+.tp{background:#F0EDE7;border-radius:6px;padding:9px 11px;margin-top:5px;font-size:.75rem;color:var(--mu);line-height:1.5}.tp strong{color:var(--ink)}
+.sl{font-family:'Cormorant Garamond',serif;font-size:.82rem;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.1em;margin:18px 0 8px;padding-left:36px}
+.df{max-width:700px;margin:0 auto;padding:16px}.df h3{font-family:'Cormorant Garamond',serif;font-size:1rem;margin-bottom:10px}
+.leaflet-popup-content-wrapper{border-radius:8px;font-family:'DM Sans',sans-serif;box-shadow:0 3px 14px rgba(0,0,0,.15)}
+.leaflet-popup-content{font-size:13px;line-height:1.5;margin:10px 14px}
+.leaflet-popup-content b{font-family:'Cormorant Garamond',serif;font-size:15px}
+.leaflet-popup-content a{color:var(--sg);font-size:12px}
+@media(max-width:500px){.hd h1{font-size:1.5rem}.tab{font-size:.58rem;padding:9px 4px}.mw{height:280px}}
+</style>
+</head>
+<body>
+<div class="hd"><h1>🇫🇷 Paris</h1><p>March 14 – 17, 2026</p></div>
+<div class="tabs">
+<div class="tab a" onclick="go(0)">Sat 14<small>Arrive + Montmartre</small></div>
+<div class="tab" onclick="go(1)">Sun 15<small>Museums + RH + St-Germain</small></div>
+<div class="tab" onclick="go(2)">Mon 16<small>Puces + Le Marais</small></div>
+<div class="tab" onclick="go(3)">Tue 17<small>Shopping + ✈️</small></div>
+</div>
+
+<div class="dc a" id="d0"><div class="mw" id="m0"></div><div class="tl" id="t0"></div></div>
+<div class="dc" id="d1"><div class="mw" id="m1"></div><div class="tl" id="t1"></div></div>
+<div class="dc" id="d2"><div class="mw" id="m2"></div><div class="tl" id="t2"></div></div>
+<div class="dc" id="d3"><div class="mw" id="m3"></div><div class="tl" id="t3"></div></div>
+
+<script>
+var M={};
+var g=function(n){return'https://www.google.com/maps/search/'+encodeURIComponent(n+' Paris')};
+var D=[
+{c:[48.884,2.338],z:15,p:[
+{la:48.881,ln:2.337,n:"Hotel Massé",e:"🏨",c:"#C25B56"},{la:48.884,ln:2.339,n:"Photo Booth",e:"📸",c:"#C4A44E"},
+{la:48.887,ln:2.343,n:"Sacré-Cœur",e:"🌅",c:"#8B9A7E"},{la:48.883,ln:2.337,n:"Bouillon Pigalle",e:"🍽️",c:"#D4A89A"},
+{la:48.882,ln:2.335,n:"Pink Mamma",e:"🍝",c:"#B8B0A4",o:1}]},
+{c:[48.858,2.322],z:13,p:[
+{la:48.864,ln:2.323,n:"Orangerie",e:"🏛️",c:"#C25B56"},{la:48.863,ln:2.327,n:"Tuileries",e:"🌳",c:"#C4A44E"},
+{la:48.860,ln:2.327,n:"Musée d'Orsay",e:"🏛️",c:"#7BA0C4",o:1},{la:48.855,ln:2.316,n:"Musée Rodin",e:"🏛️",c:"#C25B56"},
+{la:48.866,ln:2.337,n:"Café Kitsuné",e:"☕",c:"#C4A44E"},{la:48.865,ln:2.332,n:"107Rivoli",e:"🛍️",c:"#7BA0C4",o:1},
+{la:48.869,ln:2.308,n:"RH Collection",e:"🛋️",c:"#C4A44E"},{la:48.864,ln:2.314,n:"Pont Alexandre III",e:"🌉",c:"#8B9A7E"},
+{la:48.857,ln:2.341,n:"Pont Neuf",e:"🌉",c:"#8B9A7E"},{la:48.852,ln:2.345,n:"Abbey Bookshop",e:"📚",c:"#C4A44E"},
+{la:48.857,ln:2.335,n:"Buly 1803",e:"🧴",c:"#8B9A7E"},{la:48.851,ln:2.329,n:"Poilâne",e:"🥖",c:"#8B9A7E"},
+{la:48.849,ln:2.326,n:"Benchy",e:"☕",c:"#C4A44E"},{la:48.848,ln:2.332,n:"Marin Montagut",e:"🎨",c:"#C4A44E"},
+{la:48.851,ln:2.324,n:"Le Bon Marché",e:"🛍️",c:"#C4A44E"},{la:48.852,ln:2.339,n:"L'Avant-Comptoir",e:"🍴",c:"#7BA0C4"},
+{la:48.853,ln:2.341,n:"Allard",e:"🍽️",c:"#D4A89A"},{la:48.868,ln:2.348,n:"Frenchie",e:"🍽️",c:"#B8B0A4",o:1},
+{la:48.848,ln:2.321,n:"Le Petit Lutetia",e:"🍽️",c:"#B8B0A4",o:1}]},
+{c:[48.870,2.355],z:13,p:[
+{la:48.903,ln:2.340,n:"Paul Bert Serpette",e:"✨",c:"#C4A44E"},{la:48.869,ln:2.367,n:"Canal Saint-Martin",e:"📸",c:"#8B9A7E"},
+{la:48.874,ln:2.354,n:"Galerie Paradis",e:"🪑",c:"#C4A44E"},{la:48.870,ln:2.361,n:"La Trésorerie",e:"🏠",c:"#C4A44E"},
+{la:48.863,ln:2.362,n:"Les Enfants Rouges",e:"🍽️",c:"#D4A89A"},{la:48.865,ln:2.354,n:"Derrière",e:"🍽️",c:"#B8B0A4",o:1},
+{la:48.863,ln:2.366,n:"Yvon Lambert",e:"📚",c:"#C4A44E"},{la:48.860,ln:2.366,n:"The Frankie Shop",e:"👗",c:"#C4A44E"},
+{la:48.867,ln:2.338,n:"BNF Richelieu",e:"📖",c:"#C4A44E"},{la:48.867,ln:2.339,n:"Jardin Vivienne",e:"🌿",c:"#C4A44E"},
+{la:48.864,ln:2.343,n:"E. Dehillerin",e:"🍳",c:"#C4A44E"},{la:48.863,ln:2.343,n:"Bourse de Commerce",e:"🏛️",c:"#C4A44E"},
+{la:48.861,ln:2.367,n:"Merci",e:"🛍️",c:"#B8B0A4",o:1},{la:48.861,ln:2.364,n:"Ogata",e:"🍵",c:"#C4A44E",o:1},
+{la:48.859,ln:2.359,n:"Café Nuances",e:"☕",c:"#8B9A7E",o:1},{la:48.864,ln:2.356,n:"Moonlight Café",e:"☕",c:"#8B9A7E",o:1},
+{la:48.861,ln:2.358,n:"Sevenly Heart",e:"☕",c:"#8B9A7E",o:1},{la:48.864,ln:2.360,n:"Recto Verso",e:"☕",c:"#8B9A7E",o:1},
+{la:48.857,ln:2.362,n:"Joli",e:"🌿",c:"#8B9A7E",o:1},{la:48.861,ln:2.381,n:"Le Servan",e:"🍽️",c:"#D4A89A"},
+{la:48.863,ln:2.360,n:"Oniisan",e:"🍽️",c:"#B8B0A4",o:1}]},
+{c:[48.868,2.338],z:14,p:[
+{la:48.865,ln:2.346,n:"Copains",e:"🥐",c:"#C4A44E"},{la:48.880,ln:2.344,n:"Mamiche",e:"🥐",c:"#B8B0A4",o:1},
+{la:48.866,ln:2.339,n:"Galerie Vivienne",e:"🏛️",c:"#8B9A7E"},{la:48.871,ln:2.341,n:"Passage des Panoramas",e:"🏛️",c:"#7BA0C4",o:1},
+{la:48.869,ln:2.336,n:"Ultramod",e:"🧵",c:"#8B9A7E"},{la:48.864,ln:2.334,n:"Astier de Villatte",e:"🏺",c:"#8B9A7E"},
+{la:48.859,ln:2.343,n:"La Samaritaine",e:"🏬",c:"#C4A44E"},{la:48.873,ln:2.300,n:"Hôtel Balzac",e:"☕",c:"#B8B0A4",o:1},
+{la:48.881,ln:2.337,n:"Hotel Massé",e:"🏨",c:"#C25B56"}]}
+];
+
+var TL=[
+`<div class="tb"><div class="tl-l">~3:55 pm — Arrive CDG (~50 min)</div><div class="cd"><div class="nm">🚌 CDG → <a href="${g('Hotel Massé 32 Rue Victor Massé 75009')}" target="_blank">Hotel Massé</a></div><div class="ds">32 Bis Rue Victor Massé · RER B ~€11.80 / Uber ~€55–70</div></div></div><div class="tb"><div class="tl-l">~5:30 pm — Check in</div><div class="cd"><div class="nm">🏨 <a href="${g('Hotel Massé 32 Rue Victor Massé 75009')}" target="_blank">Hotel Massé</a> <span class="b bb">BOOKED</span></div><div class="ds">3 nights · Pigalle</div></div></div><div class="tb h"><div class="tl-l">~6:00 pm — Montmartre golden hour (~1.5h)</div><div class="cd s"><div class="nm">📸 <a href="${g('53 Rue des Trois Frères 75018')}" target="_blank">Photo Booth</a> <span class="b bs">★ LIST</span></div><div class="ds">53 Rue des Trois Frères</div><div class="dr">⏱ 2 min</div></div><div class="cd"><div class="nm">🌅 <a href="${g('Sacré-Cœur Basilique Montmartre')}" target="_blank">Sacré-Cœur</a></div><div class="ds">Sunset from the steps</div><div class="dr">⏱ 30 min</div></div></div><div class="tb m"><div class="tl-l">~7:30 pm — Dinner (~1.5h)</div><div class="cd"><div class="nm">🍽️ <a href="${g('Bouillon Pigalle 22 Boulevard de Clichy')}" target="_blank">Bouillon Pigalle</a></div><div class="ds">22 Blvd de Clichy · No reservation</div><div class="dr">⏱ 1.5h</div></div><div class="cd o s"><div class="nm">🍝 <a href="${g('Pink Mamma 20 Rue de Douai')}" target="_blank">Pink Mamma</a> <span class="b bo">OPT</span> <span class="b bs">★</span></div><div class="ds">10 min from hotel · 1–2h wait</div></div></div>`,
+`<div class="tb c"><div class="tl-l">~8:30 am — Breakfast</div><div class="cd"><div class="ds">Boulangerie near Tuileries on the way</div></div></div><div class="tb h"><div class="tl-l">9:00 am — Museum (~1.5h)</div><div class="cd"><div class="nm">🏛️ Musée de l'Orangerie <span class="b bb">BOOKED</span></div><div class="ds">Monet's Water Lilies · €12.50</div><div class="dr">⏱ 1.5h</div></div><div class="cd s"><div class="nm">🌳 <a href="${g('Jardin des Tuileries')}" target="_blank">Jardin des Tuileries</a> <span class="b bs">★</span></div><div class="ds">Walk through on the way</div></div></div><div class="tb h"><div class="tl-l">~10:30 am — Second museum (~1.5h)</div><div class="cd"><div class="nm">🏛️ Musée Rodin <span class="b bb">BOOKED</span></div><div class="ds">Sculptures + garden · €13</div><div class="dr">⏱ 1.5h</div></div><div class="cd o s"><div class="nm">🏛️ <a href="${g("Musée d'Orsay")}" target="_blank">Musée d'Orsay</a> <span class="b bo">SWAP?</span> <span class="b bs">★</span></div><div class="ds">5 min from Orangerie · Impressionists</div><div class="tp"><strong>💡</strong> Orsay is harder to replicate. I'd swap Rodin.</div></div></div><div class="tb c"><div class="tl-l">~12:00 pm — Coffee</div><div class="cd s"><div class="nm">☕ <a href="${g('Café Kitsuné Palais Royal')}" target="_blank">Café Kitsuné</a> <span class="b bs">★</span></div><div class="dr">⏱ 20 min</div></div><div class="cd o"><div class="nm">🛍️ <a href="${g('107 Rivoli boutique Musée Arts Décoratifs')}" target="_blank">107Rivoli</a> <span class="b bn">NEW</span></div><div class="ds">Museum-shop · Design objects</div><div class="dr">⏱ 15 min</div></div></div><div class="tb h"><div class="tl-l">~12:30 pm — Taxi to RH (~15 min)</div><div class="cd s"><div class="nm">🛋️ <a href="${g('RH Paris 23 Avenue des Champs-Élysées')}" target="_blank">RH Collection</a> <span class="b bs">★</span></div><div class="ds">23 Ave Champs-Élysées · 7-floor design gallery</div><div class="dr">⏱ 1–1.5h + lunch</div></div><div class="cd"><div class="nm">🍽️ <a href="${g('Le Jardin RH restaurant Champs-Élysées')}" target="_blank">Le Jardin RH</a> <span class="b bt">LUNCH</span></div><div class="ds">Glass canopy · American & Mediterranean</div><div class="tp"><strong>💡</strong> Or Le Petit RH (4th floor) — Eiffel Tower rooftop, 7,000 glass polyhedrons ceiling.</div></div></div><div class="tb"><div class="tl-l">~2:30 pm — Walk (~1.5h)</div><div class="cd"><div class="nm">🌉 <a href="${g('Pont Alexandre III')}" target="_blank">Pont Alexandre III</a> → <a href="${g('Pont Neuf')}" target="_blank">Pont Neuf</a></div><div class="ds">Walk or taxi from RH</div></div><div class="cd s"><div class="nm">📚 <a href="${g('The Abbey Bookshop 29 Rue de la Parcheminerie')}" target="_blank">Abbey Bookshop</a> <span class="b bs">★</span></div><div class="ds">10 min south of Pont Neuf · Free tea</div><div class="dr">⏱ 15–20 min</div></div></div><div class="tb h"><div class="tl-l">~4:00 pm — Saint-Germain (~1.5h)</div><div class="cd"><div class="nm">🧴 <a href="${g('Buly 1803 6 Rue Bonaparte')}" target="_blank">Buly 1803</a></div><div class="dr">⏱ 20 min</div></div><div class="cd"><div class="nm">🥖 <a href="${g('Poilâne 8 Rue du Cherche-Midi')}" target="_blank">Poilâne</a></div><div class="dr">⏱ 10 min</div></div><div class="cd s"><div class="nm">☕ <a href="${g('Benchy 50 Rue du Cherche-Midi')}" target="_blank">Benchy</a> <span class="b bs">★</span></div><div class="ds">Japanese coffee</div><div class="dr">⏱ 15 min</div></div><div class="cd s"><div class="nm">🎨 <a href="${g('Marin Montagut 48 Rue Madame')}" target="_blank">Marin Montagut</a> <span class="b bs">★</span></div><div class="dr">⏱ 15 min</div></div><div class="cd s"><div class="nm">🛍️ <a href="${g('Le Bon Marché 24 Rue de Sèvres')}" target="_blank">Le Bon Marché</a> <span class="b bs">★</span></div><div class="dr">⏱ 30 min+</div></div></div><div class="tb m"><div class="tl-l">~6:00 pm — Pre-dinner</div><div class="cd"><div class="nm">🍴 <a href="${g("L'Avant Comptoir de la Terre Carrefour Odéon")}" target="_blank">L'Avant-Comptoir</a> <span class="b bn">NEW</span></div><div class="ds">Standing bar · Small plates</div><div class="dr">⏱ 30 min</div></div></div><div class="tb m"><div class="tl-l">~6:30 pm — Dinner · RESERVE</div><div class="cd s"><div class="nm">🍽️ <a href="${g('Allard 41 Rue Saint-André des Arts')}" target="_blank">Allard</a> <span class="b bs">★</span> <span class="b bt">REC</span></div><div class="ds">Famous duck</div><div class="dr">⏱ 2h</div></div><div class="cd o s"><div class="nm">🍽️ <a href="${g('Frenchie 5 Rue du Nil')}" target="_blank">Frenchie</a> <span class="b bo">OPT</span> <span class="b bs">★</span></div><div class="ds">Fine dining</div></div><div class="cd o s"><div class="nm">🍽️ <a href="${g('Le Petit Lutetia 107 Rue de Sèvres')}" target="_blank">Le Petit Lutetia</a> <span class="b bo">OPT</span> <span class="b bs">★</span></div><div class="ds">Steak-frites</div></div></div>`,
+`<div class="tb c"><div class="tl-l">~8:00 am — Breakfast</div><div class="cd"><div class="ds">⚠️ Mamiche closed Mon. Breakfast near hotel.</div></div></div><div class="tb h"><div class="tl-l">9:00 am — Puces (~3–4h)</div><div class="cd"><div class="nm">🛍️ Marché aux Puces</div><div class="ds">Metro L4 → Porte de Clignancourt · Cash · By 1pm</div></div><div class="cd s"><div class="nm">✨ <a href="${g('Paul Bert Serpette 110 Rue des Rosiers Saint-Ouen')}" target="_blank">Paul Bert Serpette</a> <span class="b bs">★</span></div><div class="ds">Best section · Antiques</div></div></div><div class="tb"><div class="tl-l">~1:00 pm — Canal Saint-Martin</div><div class="cd"><div class="nm">📸 <a href="${g('Canal Saint-Martin')}" target="_blank">Canal Saint-Martin</a></div><div class="dr">⏱ 15 min</div></div></div><div class="tb"><div class="tl-l">~1:15 pm — Quick shops (~30 min)</div><div class="cd s"><div class="nm">🪑 <a href="${g('Galerie Paradis 7 Rue de Paradis')}" target="_blank">Galerie Paradis</a> <span class="b bs">★</span></div><div class="dr">⏱ 15 min</div></div><div class="cd s"><div class="nm">🏠 <a href="${g("La Trésorerie 11 Rue du Château d'Eau")}" target="_blank">La Trésorerie</a> <span class="b bs">★</span></div><div class="dr">⏱ 15 min</div></div></div><div class="tb m"><div class="tl-l">~2:00 pm — Lunch (~1h)</div><div class="cd"><div class="nm">🍽️ <a href="${g('Marché des Enfants Rouges 39 Rue de Bretagne')}" target="_blank">Les Enfants Rouges</a></div><div class="dr">⏱ 1h</div></div><div class="cd o s"><div class="nm">🍽️ <a href="${g('Derrière 69 Rue des Gravilliers')}" target="_blank">Derrière</a> <span class="b bo">OPT</span> <span class="b bs">★</span></div><div class="ds">Quirky hidden rooms</div></div></div><div class="sl">Afternoon — Pick your path</div><div class="tb h"><div class="tl-l">Option A: Culture (rec)</div><div class="cd s"><div class="nm">📚 <a href="${g('Yvon Lambert 14 Rue des Filles du Calvaire')}" target="_blank">Yvon Lambert</a> <span class="b bs">★</span></div><div class="dr">⏱ 20 min</div></div><div class="cd s"><div class="nm">👗 <a href="${g('The Frankie Shop 14 Rue Saint-Claude')}" target="_blank">The Frankie Shop</a> <span class="b bs">★</span></div><div class="dr">⏱ 15 min</div></div><div class="cd s"><div class="nm">📖 <a href="${g('BNF Richelieu 5 Rue Vivienne')}" target="_blank">BNF Richelieu</a> <span class="b bs">★</span></div><div class="ds">Stunning library, free</div><div class="dr">⏱ 30 min</div></div><div class="cd s"><div class="nm">🌿 <a href="${g('Jardin Vivienne Rue Vivienne')}" target="_blank">Jardin Vivienne</a> <span class="b bs">★</span></div><div class="dr">⏱ 10 min</div></div><div class="cd s"><div class="nm">🍳 <a href="${g('E Dehillerin 18 Rue Coquillière')}" target="_blank">E. Dehillerin</a> <span class="b bs">★</span></div><div class="ds">Cookware since 1820</div><div class="dr">⏱ 20 min</div></div><div class="cd s"><div class="nm">🏛️ <a href="${g('Bourse de Commerce Pinault Collection')}" target="_blank">Bourse de Commerce</a> <span class="b bs">★</span></div><div class="ds">Pinault · Tadao Ando</div><div class="dr">⏱ 1–1.5h</div></div></div><div class="tb"><div class="tl-l">Option B: Shopping + Marais</div><div class="cd s"><div class="nm">📚 <a href="${g('Yvon Lambert 14 Rue des Filles du Calvaire')}" target="_blank">Yvon Lambert</a> + 👗 <a href="${g('The Frankie Shop 14 Rue Saint-Claude')}" target="_blank">Frankie Shop</a> <span class="b bs">★</span></div><div class="dr">⏱ 35 min</div></div><div class="cd"><div class="nm">🛍️ <a href="${g('Merci 111 Boulevard Beaumarchais')}" target="_blank">Merci</a></div><div class="dr">⏱ 30 min</div></div><div class="cd s"><div class="nm">🍵 <a href="${g('Ogata 16 Rue Debelleyme')}" target="_blank">Ogata</a> <span class="b bs">★</span></div><div class="ds">Tea · Incredible interior</div><div class="dr">⏱ 45 min</div></div></div><div class="sl">☕ Marais coffees — pick 1</div><div class="tb c"><div class="tl-l">Drop-in</div><div class="cd o s"><div class="nm">☕ <a href="${g('Café Nuances 51 Rue des Francs Bourgeois')}" target="_blank">Café Nuances</a> <span class="b bs">★</span></div><div class="ds">Great matcha</div></div><div class="cd o s"><div class="nm">☕ <a href="${g('Moonlight Café 27 Rue des Gravilliers')}" target="_blank">Moonlight Café</a> <span class="b bs">★</span></div><div class="ds">Best matcha in Paris</div></div><div class="cd o s"><div class="nm">☕ <a href="${g('Sevenly Heart 55 Rue des Archives')}" target="_blank">Sevenly Heart</a> <span class="b bs">★</span></div></div><div class="cd o s"><div class="nm">☕ <a href="${g('Recto Verso Cafe 6 Rue Portefoin')}" target="_blank">Recto Verso</a> <span class="b bs">★</span></div></div><div class="cd o s"><div class="nm">🌿 <a href="${g('Joli Restaurant Musée Carnavalet')}" target="_blank">Joli</a> <span class="b bs">★</span></div><div class="ds">Carnavalet garden</div></div></div><div class="tb m"><div class="tl-l">~7:30 pm — Dinner</div><div class="cd"><div class="nm">🍽️ <a href="${g('Le Servan 32 Rue Saint-Maur')}" target="_blank">Le Servan</a> <span class="b bb">BOOK</span></div><div class="ds">French-Asian</div><div class="dr">⏱ 2h</div></div><div class="cd o s"><div class="nm">🍽️ <a href="${g('Oniisan Izakaya 82 Rue des Archives')}" target="_blank">Oniisan</a> <span class="b bo">OPT</span> <span class="b bs">★</span></div></div></div>`,
+`<div class="tb c"><div class="tl-l">~8:00 am — Breakfast</div><div class="cd s"><div class="nm">🥐 <a href="${g('Copains 60 Rue Tiquetonne')}" target="_blank">Copains</a> <span class="b bs">★</span> <span class="b bt">REC</span></div><div class="ds">Opens 8am</div></div><div class="cd o s"><div class="nm">🥐 <a href="${g('Mamiche 45 Rue Condorcet')}" target="_blank">Mamiche</a> <span class="b bo">OPT</span> <span class="b bs">★</span></div><div class="ds">Near hotel · Opposite direction</div></div></div><div class="tb h"><div class="tl-l">~8:30 am — Shopping (~1.5h)</div><div class="cd"><div class="nm">🏛️ <a href="${g('Galerie Vivienne')}" target="_blank">Galerie Vivienne</a></div><div class="dr">⏱ 20 min</div></div><div class="cd o"><div class="nm">🏛️ <a href="${g('Passage des Panoramas')}" target="_blank">Passage des Panoramas</a> <span class="b bn">NEW</span></div><div class="ds">Oldest passage (1799) · 5 min away</div><div class="dr">⏱ 10 min</div></div><div class="cd"><div class="nm">🧵 <a href="${g('Ultramod Mercerie 4 Rue de Choiseul')}" target="_blank">Ultramod</a></div><div class="dr">⏱ 15 min</div></div><div class="cd"><div class="nm">🏺 <a href="${g('Astier de Villatte 173 Rue Saint-Honoré')}" target="_blank">Astier de Villatte</a></div><div class="dr">⏱ 20 min</div></div><div class="cd s"><div class="nm">🏬 <a href="${g('La Samaritaine 9 Rue de la Monnaie')}" target="_blank">La Samaritaine</a> <span class="b bs">★</span></div><div class="ds">Art Nouveau · 15 min worth it</div><div class="dr">⏱ 15–20 min</div></div></div><div class="tb c"><div class="tl-l">~10:00 am — Coffee</div><div class="cd"><div class="nm">☕ <a href="${g('Hôtel Balzac 6 Rue Balzac')}" target="_blank">Hôtel Balzac</a></div></div><div class="tp"><strong>💡</strong> Skip if you did La Samaritaine. Need hotel by 10:30.</div></div><div class="tb"><div class="tl-l">By 10:30 am — Checkout → CDG</div><div class="cd"><div class="nm">✈️ Hotel Massé → CDG</div><div class="ds">AF1566 departs 12:40 → Florence 14:25</div></div></div><div class="df"><h3>🚫 Doesn't fit well</h3><div class="cd o s"><div class="nm">🍽️ <a href="${g('Le Train Bleu Gare de Lyon')}" target="_blank">Le Train Bleu</a> <span class="b bs">★</span></div><div class="ds">2h+ travel</div></div><div class="cd o s"><div class="nm">🍝 <a href="${g('Pink Mamma 20 Rue de Douai')}" target="_blank">Pink Mamma</a> <span class="b bs">★</span></div><div class="ds">1–2h waits</div></div></div>`
+];
+
+function ci(e,c,o){
+var s=o?24:28,op=o?.55:1,bd=o?'dashed':'solid';
+return L.divIcon({html:'<div style="width:'+s+'px;height:'+s+'px;display:flex;align-items:center;justify-content:center;font-size:'+(s-8)+'px;background:#fff;border:2px '+bd+' '+c+';border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,.2);opacity:'+op+'">'+e+'</div>',iconSize:[s,s],iconAnchor:[s/2,s/2],popupAnchor:[0,-s/2],className:''})
+}
+
+function im(i){
+if(M[i]){M[i].invalidateSize();return}
+var d=D[i],map=L.map('m'+i,{scrollWheelZoom:false}).setView(d.c,d.z);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+attribution:'© <a href="https://openstreetmap.org">OSM</a> © <a href="https://carto.com">CARTO</a>',
+subdomains:'abcd',maxZoom:19
+}).addTo(map);
+d.p.forEach(function(p){
+var mk=L.marker([p.la,p.ln],{icon:ci(p.e,p.c,p.o)}).addTo(map);
+mk.bindPopup('<b>'+p.n+'</b><br><a href="'+g(p.n)+'" target="_blank">Open in Google Maps →</a>');
+});
+M[i]=map;
+document.getElementById('t'+i).innerHTML=TL[i];
+}
+
+function go(i){
+document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('a',j===i)});
+document.querySelectorAll('.dc').forEach(function(d,j){d.classList.toggle('a',j===i)});
+window.scrollTo({top:0,behavior:'smooth'});
+setTimeout(function(){im(i)},200);
+}
+im(0);
+</script>
+</body>
+</html>
